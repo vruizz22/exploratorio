@@ -1,0 +1,3 @@
+# Eliminar cache de phyton
+__pycache__/
+.cph/
