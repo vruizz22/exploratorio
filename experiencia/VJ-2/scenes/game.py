@@ -11,16 +11,11 @@ from elements.jorge import Player
 
 from elements.bug import Enemy
 
-from os import path
-
 
 def gameLoop():
     ''' iniciamos los modulos de pygame'''
 
     pygame.init()
-
-    '''0. Rutas importantes'''
-    RUTA_BACKGROUND = path.join('assets', 'pixelBackground.jpg')
 
     ''' Creamos y editamos la ventana de pygame (escena) '''
     ''' 1.-definir el tamaño de la ventana'''
@@ -29,13 +24,14 @@ def gameLoop():
 
     ''' 2.- crear el objeto pantalla'''
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    background_image = pygame.image.load(RUTA_BACKGROUND).convert()
+    background_image = pygame.image.load("assets/pixelBackground.jpg").convert()
 
     ''' Preparamos el gameloop '''
     ''' 1.- creamos el reloj del juego'''
-    clock = pygame.time.Clock()
 
+    clock = pygame.time.Clock()
     ''' 2.- generador de enemigos'''
+
     ADDENEMY = pygame.USEREVENT + 1
     pygame.time.set_timer(ADDENEMY, 600)
 
@@ -56,6 +52,23 @@ def gameLoop():
     while running:
 
         screen.blit(background_image, [0, 0])
+        
+        for entity in all_sprites:
+                screen.blit(entity.surf, entity.rect)
+        
+
+        
+        pressed_keys = pygame.key.get_pressed()
+        player.update(pressed_keys)
+        enemies.update()
+        
+        if pygame.sprite.spritecollideany(player, enemies):
+            player.kill()
+            running = False
+        
+
+        pygame.display.flip()
+        
         # iteramos sobre cada evento en la cola
         for event in pygame.event.get():
             # se presiono una tecla?
@@ -67,32 +80,12 @@ def gameLoop():
             # fue un click al cierre de la ventana? -> entonces terminamos
             elif event.type == QUIT:
                 running = False
-
-            # es un evento que agrego enemigos?
+            
             elif event.type == ADDENEMY:
-                # creamos un nuevo enemigo y lo agregamos a los grupos
                 new_enemy = Enemy(SCREEN_WIDTH, SCREEN_HEIGHT)
                 enemies.add(new_enemy)
                 all_sprites.add(new_enemy)
 
-        # dibujamos todos los sprites
-        for entity in all_sprites:
-            screen.blit(entity.surf, entity.rect)
 
-        # obtenemos todas las teclas presionadas actualmente
-        pressed_keys = pygame.key.get_pressed()
-
-        # actualizamos el sprite del jugador basado en las teclas presionadas
-        player.update(pressed_keys)
-
-        # actualizamos los enemigos
-        enemies.update()
-
-        pygame.display.flip()
         clock.tick(40)
-
-        # vemos si algun enemigo choco con el jugador
-        if pygame.sprite.spritecollideany(player, enemies):
-            # si choco, eliminamos al jugador y terminamos el juego
-            player.kill()
-            running = False
+        

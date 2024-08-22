@@ -9,7 +9,6 @@ from pygame.locals import (RLEACCEL)
 BUGpng = pygame.image.load('assets/bug.png')
 BUGpng_scaled = pygame.transform.scale(BUGpng, (64, 64))
 
-
 class Enemy(pygame.sprite.Sprite):
 
     def __init__(self, SCREEN_WIDTH, SCREEN_HEIGHT):
@@ -25,6 +24,7 @@ class Enemy(pygame.sprite.Sprite):
             )
         )
         self.speed = random.randint(3, 5)
+
 
     def update(self):
         self.rect.move_ip(-self.speed, 0)
