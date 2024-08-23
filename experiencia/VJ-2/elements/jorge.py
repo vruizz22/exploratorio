@@ -13,6 +13,7 @@ from elements.projectile import Projectile
 JorgePNG = pygame.image.load('assets/JorgeVJ.png')
 JorgePNG_scaled = pygame.transform.scale(JorgePNG, (80, 80))
 
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, SCREEN_WIDTH, SCREEN_HEIGHT):
         # nos permite invocar métodos o atributos de Sprite
@@ -22,7 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect()
         self.screen_width = SCREEN_WIDTH
         self.screen_height = SCREEN_HEIGHT
-
+        self.projectiles = pygame.sprite.Group()
 
     def update(self, pressed_keys):
         if pressed_keys[K_UP]:
@@ -33,7 +34,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.move_ip(-4, 0)
         if pressed_keys[K_RIGHT]:
             self.rect.move_ip(4, 0)
-        
+
         if self.rect.left < 0:
             self.rect.left = 0
         if self.rect.right > self.screen_width:
@@ -43,6 +44,18 @@ class Player(pygame.sprite.Sprite):
         if self.rect.bottom > self.screen_height:
             self.rect.bottom = self.screen_height
 
-    
+        # Actualiza la posición de los proyectiles
+        self.projectiles.update()
+
     def shoot(self, mouse_pos):
-        pass
+        # Calula la dirección del proyectil
+        direction = (
+            mouse_pos[0] - self.rect.centerx,
+            mouse_pos[1] - self.rect.centery
+        )
+        length = math.hypot(*direction)
+        direction = (direction[0] / length, direction[1] / length)
+        # Crea un proyectil en la posiciondel jugador
+        projectile = Projectile(
+            self.rect.center, direction, self.screen_width, self.screen_height)
+        self.projectiles.add(projectile)
