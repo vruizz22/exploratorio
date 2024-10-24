@@ -1,3 +1,21 @@
+# Ante caulquier problema
+
+Si se tiene algun problema con el proyecto, se debe ejecutar el siguiente comando:
+
+```bash
+npm install metro@latest
+```
+
+Actualiza la version de metro, para que no haya problemas con el proyecto.
+
+# Instalar global expo
+
+Para instalar expo, se debe ejecutar el siguiente comando:
+
+```bash
+npm install --global eas-cli
+```
+
 # Primero creamos la app
 
 Este es el unico importate, para crear una app con expo, se debe ejecutar el siguiente comando:
@@ -9,6 +27,20 @@ luego para correr el proyecto:
 
 ```bash
 npm run web
+```
+
+## Instalar un prettier
+
+Para instalar un prettier, se debe ejecutar el siguiente comando:
+
+```bash
+npx expo lint
+```
+
+luego,
+
+```bash
+npx expo install -- --save-dev prettier eslint-config-prettier eslint-plugin-prettier
 ```
 
 # Comandos para iniciar un poryecto con expo
