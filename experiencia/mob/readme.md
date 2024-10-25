@@ -1,3 +1,12 @@
+# Instalar global expo, para INICIAR
+
+Para instalar expo, se debe ejecutar el siguiente comando:
+
+```bash
+npm install --global eas-cli
+```
+
+
 # Ante caulquier problema
 
 Si se tiene algun problema con el proyecto, se debe ejecutar el siguiente comando:
@@ -8,19 +17,19 @@ npm install metro@latest
 
 Actualiza la version de metro, para que no haya problemas con el proyecto.
 
-# Instalar global expo
 
-Para instalar expo, se debe ejecutar el siguiente comando:
-
-```bash
-npm install --global eas-cli
-```
 
 # Primero creamos la app
 
 Este es el unico importate, para crear una app con expo, se debe ejecutar el siguiente comando:
 ```bash
 npx create-expo-app@latest
+```
+
+para crearlo en vacio:
+
+```bash
+npx create-expo-app@latest [nombre_proyecto] --template blank
 ```
 
 luego para correr el proyecto:
@@ -41,6 +50,45 @@ luego,
 
 ```bash
 npx expo install -- --save-dev prettier eslint-config-prettier eslint-plugin-prettier
+```
+
+luego es necesario configurar el archivo .eslintrc.js, con el siguiente contenido:
+
+```js
+module.exports = {
+  extends: ['expo', 'prettier'],
+  plugins: ['prettier'],
+  rules: {
+    'prettier/prettier': 'error',
+  },
+};
+```
+
+luego crear un archivo .prettierrc, con el siguiente contenido:
+
+```json
+{
+  "singleQuote": true,
+  "trailingComma": "all"
+}
+```
+
+y editar package.json, con el siguiente contenido:
+
+```json
+{
+  "scripts": {
+    "start": "expo start",
+    "reset-project": "node ./scripts/reset-project.js",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "test": "jest --watchAll",
+    "lint": "expo lint",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "format": "prettier --write ."
+  }
+}
 ```
 
 # Comandos para iniciar un poryecto con expo

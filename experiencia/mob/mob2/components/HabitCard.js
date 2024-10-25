@@ -12,6 +12,12 @@ export default function HabitCard(props) {
 
     function handleDecrease() { // Quita 1 al contador de hábitos
         setCount((prevCount) => prevCount - 1);
+
+        /* Si el contador llega a 0, se llama a 
+        la función onDelete del componente padre con el id del hábito */
+        if (count === 0) {
+            handleDelete();
+        }
     }
 
     function handleDelete() { // Llama a la función onDelete del componente padre con el id del hábito
